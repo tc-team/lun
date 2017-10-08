@@ -83,6 +83,7 @@
       border: none;
       border-bottom: 1px solid $color-placeholder;
     }
+    &--right { float: right; }
   }
 
   &-select {
@@ -132,12 +133,22 @@
     }
     &--image {
     }
-    &--label {
-      &-hidden { display: block; opacity: .5; }
-    }
-
   }
-  // group
+
+  &-checkbox {
+    height: 40px;
+    line-height: 40px;
+    // &--inline {
+    //   input[type=checkbox] { vertical-align: middle; }
+    //   input[type=text] {
+    //     position: absolute;
+    //     top: 0;
+    //     right: 0;
+    //     height: 100%;
+    //   }
+    // }
+  }
+
   &-group {
     position: relative;
     margin-bottom: 20px;
@@ -174,6 +185,7 @@
     &--with-icon { position: relative; }
     &--center { text-align: center; }
     &--inline { display: inline-block; }
+    &--full { width: 100%; }
   }
 
   &--full { width: 100%; }

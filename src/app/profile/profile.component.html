@@ -57,17 +57,18 @@
 
           <fieldset *ngSwitchCase="3" name="social" formGroupName="social">
             <legend class="profile--form-legend">3. Social</legend>
-            <div class="form-group" *ngFor="let link of socialList; let i = index">
+            <div class="form-group" *ngFor="let link of socialList; let i = index" [formGroupName]="link.value">
               <!-- form-group-flex-item form-group-flex--spaced -->
-              <div class="form-checkbox">
-                <input [name]="link.value" [value]="false" type="checkbox" class="" />
+              <div class="form-checkbox form-group--inline form-group--full">
+                <input formControlName="selected" name="selected" [value]="false" type="checkbox" class="" />
                 <label [for]="link.value">{{link.display}}</label>
-                  <!-- [checked]="scheduleForm.get('date_start').value === date.day" -->
-                <input [hidden]="!link"
-                       [formControlName]="link.value" [name]="link.value" type="text"
-                       class="form-input form-input--default form-input--white-bg"
+                <input [hidden]="!profileForm.get('social').get(link.value).get('selected').value"
+                       formControlName="link" name="link" type="text"
+                       [attr.required]="profileForm.get('social').get(link.value).get('selected').value"
+                       class="form-input form-input--right form-input--default form-input--white-bg"
                        [placeholder]="link.placeholder" />
               </div>
+              <app-control-messages [control]="profileForm.get('social').get(link.value)"></app-control-messages>
             </div>
           </fieldset>
 
@@ -100,7 +101,8 @@
 
     </div>
 
-    <pre>Value: {{ profileForm.value | json }}</pre>
+    <pre>Value: {{ profileForm.get(stepToControllName(currentStep)).status }}</pre>
+    <pre>Value: {{ profileForm.get(stepToControllName(currentStep)).value | json }}</pre>
     <!-- <p>Current Step: {{ currentStep }}</p> -->
 
 

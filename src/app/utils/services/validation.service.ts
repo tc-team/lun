@@ -1,4 +1,4 @@
-import { AbstractControl, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, AbstractControl, Validators, ValidatorFn } from '@angular/forms';
 
 export class ValidationService {
   static PATTERN = {
@@ -45,5 +45,13 @@ export class ValidationService {
       // return (v === includeVal || v >= value) ? null : { 'include': { maxValue: value } };
       return (group.value.includes(pattern)) ? null : { 'wrongPet': true };
     };
+  }
+
+  static dynamicRequiredValidator(g: FormGroup) {
+    const value = g.get('selected').value;
+    const control = g.get('link');
+
+    value ? control.setValidators(Validators.required) : control.clearValidators();
+    // return
   }
 }

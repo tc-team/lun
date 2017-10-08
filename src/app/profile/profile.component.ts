@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { BrowserModule, DomSanitizer, SafeStyle } from '@angular/platform-browser'
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 import { ProfileService } from './profile.service';
 import { ValidationService } from '../utils/services/validation.service';
@@ -68,12 +68,24 @@ export class ProfileComponent implements OnInit {
         city: ['', [ Validators.required ] ],
       }),
       // step 3
-      // social: _builder.array([ this.buildSocial() ]),
+      // social: _builder.group({ this.buildSocial() }),
       social: _builder.group({
-        fb: ['', [  ]],
-        vk: ['', [  ]],
-        tw: ['', [  ]],
-        ok: ['', [  ]],
+        fb: _builder.group({
+          selected: [false, [ Validators.required ]],
+          link: ['', []]
+        }, { validator : ValidationService.dynamicRequiredValidator } ),
+        vk: _builder.group({
+          selected: [false, [ Validators.required ]],
+          link: ['', []]
+        }),
+        tw: _builder.group({
+          selected: [false, [ Validators.required ]],
+          link: ['', []]
+        }),
+        ok: _builder.group({
+          selected: [false, [ Validators.required ]],
+          link: ['', []]
+        }),
       }),
       // step 4
       favorite: _builder.group({
@@ -85,21 +97,28 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     // this.buildSocial();
     this.loadCountries();
-    // this.loadCities();
   }
 
   public onSubmitProfileForm(event: Event): void { }
 
   private buildSocial() {
-    // const arr = this.socialList.map(service => {
-    //   return this._builder.control(false);
-    //   // return this.fb.group({
-    //   //   selected: [s.selected],
-    //   //   id: [s.id]
-    //   // }
+    // const arr = this.socialList.map((service) => {
+    //    return new FormGroup({
+    //     selected: new FormControl(false, [Validators.required]),
+    //     link: new FormControl('', [Validators.minLength(2)]),
+    //   });
+    //
+    //   // return service.value;
+    //
+    //   // return this._builder.control(false);
+    //
+    //   // return _builder.group({
+    //   //     selected: [false, [Validators.required]],
+    //   //     link: ['', []],
+    //   //   });
     // });
-    // console.log(this._builder.array(arr));
-    // return this._builder.array(arr);
+    // console.log(this._builder.group(...arr));
+    // return this._builder.group(...arr);
 
     // return this._builder.group({
     //       street: ['', Validators.required],
@@ -139,8 +158,7 @@ export class ProfileComponent implements OnInit {
 
   public canActivateStep(index?: number): Boolean {
     const controls = this.profileForm.controls[ this.stepToControllName(index ? index : this.currentStep) ];
-    const can = (controls.valid && controls.touched) ? false : true ;
-    return can;
+    return (controls.valid) ? false : true ;;
   }
 
   public activatePrevStepControll(): Boolean {
