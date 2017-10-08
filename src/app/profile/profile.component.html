@@ -95,8 +95,8 @@
 
       <!-- actions controlls -->
       <div class="profile--steps-controlls">
-        <button class="profile--steps-controlls-button" type="button" name="Prev" (click)="decrementStep()" [disabled]="activatePrevStepControll()">< Prev</button>
-        <button class="profile--steps-controlls-button" type="button" name="Next" (click)="incrementStep()" [disabled]="canActivateStep()">Next ></button>
+        <button class="profile--steps-controlls-button" type="button" name="Prev" (click)="decrementStep()" [disabled]="activatePrevStepControll()"><  Prev</button>
+        <button class="profile--steps-controlls-button" type="button" name="Next" (click)="incrementStep()" [disabled]="canActivateStep()">{{ getNextButtonText() }}</button>
       </div>
 
     </div>

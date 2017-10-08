@@ -77,15 +77,15 @@ export class ProfileComponent implements OnInit {
         vk: _builder.group({
           selected: [false, [ Validators.required ]],
           link: ['', []]
-        }),
+        }, { validator : ValidationService.dynamicRequiredValidator } ),
         tw: _builder.group({
           selected: [false, [ Validators.required ]],
           link: ['', []]
-        }),
+        }, { validator : ValidationService.dynamicRequiredValidator } ),
         ok: _builder.group({
           selected: [false, [ Validators.required ]],
           link: ['', []]
-        }),
+        }, { validator : ValidationService.dynamicRequiredValidator } )
       }),
       // step 4
       favorite: _builder.group({
@@ -173,6 +173,9 @@ export class ProfileComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustStyle (`url(${url})` );
   }
 
+  public getNextButtonText(): string {
+    return this.currentStep === 4 ? 'Complete'  : 'Next  >';
+  }
 
   /*
    * Form handlers
