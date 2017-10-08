@@ -1,0 +1,38 @@
+/* Layout
+ * Apply a natural box layout model to all elements, but allowing components to change
+ * Mobile First Grid
+ */
+
+@import '~styles/_variables';
+
+.column {
+  float: left;
+  margin: 0;
+
+  &.full { width: 100%; }
+  &.two-thirds { width: 66.7%; }
+  &.half { width: 50%; }
+  &.third { width: 33.3%; }
+  &.fourth { width: 25%; }
+  &.flow-opposite { float: right; }
+}
+
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  @media #{$tablet} {
+    width: 750px;
+  }
+  @media #{$desktop} {
+    width: 970px;
+  }
+  @media #{$extra-desktop} {
+    width: 1174px;
+  }
+  @media #{$extra-big-desktop} {
+    width: 1410px;
+  }
+}

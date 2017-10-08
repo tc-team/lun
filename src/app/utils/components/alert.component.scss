@@ -1,0 +1,21 @@
+:host {
+   position: fixed;
+   right: 0;
+   top: 0;
+   left: 0;
+  height: 0;
+  z-index: 10;
+  user-select: none;
+}
+
+.alert{
+  background-color: #404040;
+  text-align: center;
+  padding: 10px;
+  line-height: 29px;
+  font-size: 14px;
+  z-index: 10;
+  will-change: transform;
+  &--success{ color: #cacaca; background-color: #1d1d21; }
+  &--danger{ color: #ffffff; background-color: #ce5151; }
+ }

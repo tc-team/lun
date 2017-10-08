@@ -1,0 +1,98 @@
+/*
+* Mixins styles
+*/
+
+@mixin small-caps() {
+  font-variant: small-caps;
+}
+
+@mixin background($url) {
+  background-image: url( $url );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@mixin toggle($bg-color-on, $bg-color-off) {
+    // position: relative;
+  & + & { margin-top: 12px; }
+  & > label {
+    position: relative;
+    padding: 0;
+    display: block;
+    width: 100%;
+    // font-size: 10px;
+    // color: #a4a4a4;
+    // line-height: 26px;
+  }
+  & > input {
+    vertical-align: top;
+    width: 17px;
+    height: 17px;
+    margin: 0 3px 0 0;
+    right: 0;
+    top: 4px;
+    &:not(checked) {
+      position: absolute;
+      opacity: 0;
+    }
+    &:checked {
+      & + label:before {
+        // background: #f3b3a3;
+        // background: rgba($color-primary, 0.75);
+        background: $bg-color-on;
+        }
+      & + label:after { right: 3px; }
+      & + label.label-medium:after { right: 3px; }
+    }
+    & + label {
+      // cursor: pointer;
+      &:before,
+      &:after { content: ''; position: absolute; }
+      &:before {
+        top: 0;
+        right: 0;
+        width: 50px;
+        height: 26px;
+        border-radius: 13px;
+        // background: #CDD1DA;
+        background: $bg-color-off;
+        // box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.2);
+      }
+      &:after {
+        top: 2px;
+        right: 26px;
+        width: 22px;
+        height: 22px;
+        border-radius: 10px;
+        background: #FFF;
+        // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        transition: all .3s;
+      }
+
+      &.label-medium {
+        &:before { width: 50px; height: 24px; }
+        &:after { top: 3px; width: 18px; height: 18px; right: 28px; }
+      }
+    }
+  }
+}
+
+@mixin control-messages($color) {
+  color: $color;
+  position: absolute;
+  font-size: 0.6rem;
+  font-style: italic;
+  padding-top: 2px;
+  // padding-left: 20px;
+  &:before {
+    content: '';
+    display: block;
+    // background-image: url('/assets/icons/icon_error.png');
+    background-repeat: no-repeat;
+    width: 13px;
+    height: 11px;
+    position: absolute;
+    left: 2px;
+  }
+}

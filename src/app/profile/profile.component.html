@@ -1,0 +1,126 @@
+<div class="profile full table">
+  <div class="table-cell table-center">
+    <div class="container">
+
+      <!-- steps controlls -->
+      <div class="profile--steps-controlls">
+        <button class="profile--steps-controlls-button" [ngClass]="isCurrentStep(1)" (click)="setStep(1)">1</button>
+        <button class="profile--steps-controlls-button" [ngClass]="isCurrentStep(2)" (click)="setStep(2)" >2</button>  <!--[disabled]="canActivateStep(1)"-->
+        <button class="profile--steps-controlls-button" [ngClass]="isCurrentStep(3)" (click)="setStep(3)" >3</button>  <!--[disabled]="canActivateStep(2)"-->
+        <button class="profile--steps-controlls-button" [ngClass]="isCurrentStep(4)" (click)="setStep(4)" >4</button>  <!--[disabled]="canActivateStep(3)"-->
+      </div>
+
+        <!-- form -->
+      <div class="profile--form">
+        <form class="form form--full"
+              [formGroup]="profileForm"
+              (ngSubmit)="onSubmitProfileForm($event)"
+              novalidate
+              [ngSwitch]="currentStep" >
+
+          <fieldset *ngSwitchCase="1" name="general" formGroupName="general">
+            <legend class="profile--form-legend">1. Enter name and email</legend>
+            <div class="form-group">
+              <input formControlName="name" name="name" type="text"
+                     class="form-input form-input--default form-input--full "
+                     placeholder="Name" />
+              <app-control-messages [control]="profileForm.get('general').get('name')"></app-control-messages>
+            </div>
+            <div class="form-group">
+              <input formControlName="email" name="email" type="text"
+                     class="form-input form-input--default form-input--full "
+                     placeholder="Email" />
+              <app-control-messages [control]="profileForm.get('general').get('email')"></app-control-messages>
+            </div>
+          </fieldset>
+
+          <fieldset *ngSwitchCase="2" name="location" formGroupName="location">
+            <legend class="profile--form-legend">2. Enter location</legend>
+            <div class="form-group">
+              <select formControlName="country" class="form-select form-select--medium form-select--full country-select" (change)="setCountry($event)">  <!-- (change)="setCountry($event)" -->
+                <option value="" disabled selected>Country</option>
+                <option *ngFor="let key of mapToIterable(countries); let i = index" [attr.value]="key">{{countries[ key ]}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <select formControlName="city" class="form-select form-select--medium form-select--full country-select">  <!-- (change)="setCity($event)" -->
+                <option value="" disabled selected>City</option>
+                <option *ngFor="let key of mapToIterable(cities); let i = index" [attr.value]="key">{{cities[key].name}}</option>
+              </select>
+              <!-- <input *ngIf="mapToIterable(cities).length"
+                     formControlName="city" name="city" type="text"
+                     class="form-input form-input--default form-input--full "
+                     placeholder="Enter City" /> -->
+              <!-- <app-control-messages [control]="profileForm.get('location').get('city')"></app-control-messages> -->
+            </div>
+          </fieldset>
+
+          <fieldset *ngSwitchCase="3" name="social" formGroupName="social">
+            <legend class="profile--form-legend">3. Social</legend>
+            <div class="form-group" *ngFor="let link of socialList; let i = index">
+              <!-- form-group-flex-item form-group-flex--spaced -->
+              <div class="form-checkbox">
+                <input [name]="link.value" [value]="false" type="checkbox" class="" />
+                <label [for]="link.value">{{link.display}}</label>
+                  <!-- [checked]="scheduleForm.get('date_start').value === date.day" -->
+                <input [hidden]="!link"
+                       [formControlName]="link.value" [name]="link.value" type="text"
+                       class="form-input form-input--default form-input--white-bg"
+                       [placeholder]="link.placeholder" />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset *ngSwitchCase="4" name="favorite" formGroupName="favorite">
+            <legend class="profile--form-legend">4. Pet</legend>
+            <div class="form-group">
+              <div class="form-group-flex clearfix">
+                <div class="profile--form-pet-item form-radio form-group-flex-item form-group-flex--spaced" *ngFor="let pet of petsList">
+                  <input formControlName="pet" class="profile--form-pet-item--input form-radio--input" attr.id="pet-{{pet.name}}" value={{pet.name}}
+                    type="radio" name="pet" />
+                  <div class="profile--form-pet-item--image form-radio--image"
+                       [style.backgroundImage]="backgroundImg(pet.pictureUrl)">
+                  </div>
+                </div>
+              </div>
+              <app-control-messages [control]="profileForm.get('favorite').get('pet')"></app-control-messages>
+            </div>
+          </fieldset>
+
+          <!-- <fieldset *ngSwitchDefault></fieldset> -->
+
+        </form>
+      </div>
+
+      <!-- actions controlls -->
+      <div class="profile--steps-controlls">
+        <button class="profile--steps-controlls-button" type="button" name="Prev" (click)="decrementStep()" [disabled]="activatePrevStepControll()">< Prev</button>
+        <button class="profile--steps-controlls-button" type="button" name="Next" (click)="incrementStep()" [disabled]="canActivateStep()">Next ></button>
+      </div>
+
+    </div>
+
+    <pre>Value: {{ profileForm.value | json }}</pre>
+    <!-- <p>Current Step: {{ currentStep }}</p> -->
+
+
+  </div>
+
+
+  <!--
+    <div class="form-group">
+    <div class="form-checkbox" *ngFor="let link of socialList; let i = index">
+    <input [(ngModel)]="socialList[i]" value="false" [name]="link" type="checkbox" class="" />
+    <label [for]="link">{{link}}</label>
+    <input [hidden]="!socialList[i]"
+    type="text"
+    class="form-input form-input--default"
+    [placeholder]="link" />
+    <p>Social: {{ socialList[i] | json }}</p>
+    </div>
+    </div>
+  -->
+
+
+
+</div>

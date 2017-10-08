@@ -1,0 +1,6 @@
+<div class="alert"
+    [@newState]="state"
+    (@newState.done)="clearNotification()"
+    (click)="clearNotification()"
+    [class.alert--success]="message?.type === 'success'"
+    [class.alert--danger]="message?.type === 'error'">{{message?.text}}</div>
