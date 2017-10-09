@@ -12,11 +12,13 @@ export interface Countries {
   [ index: string ]: string;
 }
 
+export interface City {
+  'country': number,
+  'name': string
+}
+
 export interface Cities {
-  [ index: string ]: {
-    'country': number,
-    'name': string
-  };
+  [ index: string ]: City
 }
 
 @Component({
@@ -36,9 +38,9 @@ export class ProfileComponent implements OnInit {
   private socialList: Array<Object>;
   private petsList: Array<Object>;
 
-  countries: any;
-  cities: any;
-  iterableCitiesMap: any;
+  countries: Countries;
+  cities: Cities;
+  iterableCitiesMap: Array<string>;
   isCountryCitiesPresented: boolean;
 
   profileForm: FormGroup;
@@ -111,7 +113,7 @@ export class ProfileComponent implements OnInit {
       {}, {
         'name': this.profileForm.value.general.name,
         'email': this.profileForm.value.general.email,
-        'address': this.profileForm.value.location.city + ', ' + this.profileForm.value.location.country,
+        'address': this.getCountryNameById(this.profileForm.value.location.country) + ', ' +this.getCityById(this.profileForm.value.location.city).name,
         'social': this.getSocialForDisplay(this.profileForm.value.social),
         'pet': this.profileForm.value.favorite.pet
       });
@@ -198,6 +200,17 @@ export class ProfileComponent implements OnInit {
       ? {'text': 'Complete', 'class': 'finish'} : {'text': 'Next  >', 'class': 'completed'} ;
   }
 
+  // Clear form. Set currentn step to start
+  public clearFormData(): void {
+    // Remove added 'link' FormControlls
+    this.socialList.forEach((curValue, index, array) => {
+      let formGroup = this.profileForm.get(`social.${curValue['value']}`) as FormGroup;
+      formGroup.removeControl('link');
+    });
+    // this.profileForm.reset();
+    this.currentStep = 1;
+  }
+
 
   /*
    * Form handlers
@@ -271,4 +284,13 @@ export class ProfileComponent implements OnInit {
 
     return arr;
   }
+
+  private getCountryNameById(id: number|string):string {
+    return this.countries[id];
+  }
+
+  private getCityById(id: number|string): any {
+    return this.cities[id];
+  }
+
 }

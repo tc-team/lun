@@ -25,16 +25,12 @@
       cursor: pointer;
       outline: 0;
       &.current {}
-      &.completed {
-        color: $color-primary;
-      }
+      &.completed { color: $color-primary; }
       &.finish {
         background-color: $color-primary;
         color: #ffffff
       }
-      // &:disabled {
-      //   color: graytext;
-      // }
+      &:disabled { color: gray; background-color: initial; }
     }
 
     &-description {

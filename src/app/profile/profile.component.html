@@ -93,8 +93,8 @@
       </div>
 
       <!-- preview  -->
-      <div *ngIf="copmleteForm" class="profile-preview">
-        <div class="profile-preview--content" [style.backgroundImage]="backgroundImg(profileData.favorite.pet)">
+      <div *ngIf="copmleteForm" class="profile-preview clearfix">
+        <div class="profile-preview--content" [style.backgroundImage]="backgroundImg(profileData.pet)">
           <div class="profile-preview--info">
             <div>
               <div class="profile-preview--name">{{profileData.name}}</div>
@@ -102,17 +102,15 @@
             </div>
             <div class="profile-preview--address">{{profileData.address}}</div>
             <div class="profile-preview--social">
-              <span class="profile-preview--social-name">Facebook</span>: <span class="profile-preview--social-link">fb.com/lun</span>
-              <br />
-              <span class="profile-preview--social-name">Twitter</span>: <span class="profile-preview--social-link">tw.com/lun</span>
+              <div *ngFor="let item of profileData.social">
+                <span class="profile-preview--social-name">{{item.name}}</span>: <span class="profile-preview--social-link">{{item.link}}</span>
+              </div>
             </div>
           </div>
         </div>
-        <!-- <img class="profile-preview--image" [src]="profileData.favorite.pet" alt=""> -->
-        <!-- <div class="profile-preview--image" [style.backgroundImage]="backgroundImg(profileData.favorite.pet)"></div> -->
-        <div class="profile-controlls">
-          <button class="profile-controlls-button finish" type="button" name="Next" (click)="incrementStep()">Try again</button>
-        </div>
+      </div>
+      <div class="profile-controlls">
+        <button class="profile-controlls-button finish" type="button" name="Next" (click)="clearFormData()">Try again</button>
       </div>
 
       <!-- actions controlls -->
