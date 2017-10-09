@@ -10,9 +10,12 @@ export const StepsMap = {
   '4': 'favorite'
 };
 
-export const StepsTitle = [
-  {},
-];
+export const StepsDescription = {
+  1: { number: '1', name: 'general', descr: 'Enter name and email' },
+  2: { number: '2', name: 'location', descr: 'Enter location' },
+  3: { number: '3', name: 'social', descr: 'Provide social network links' },
+  4: { number: '4', name: 'favorite', descr: 'Select your favourite pet' }
+};
 
 export const SocialList = [
   { value: 'fb', display: 'Facebook', placeholder: 'Your page on Facebook' },

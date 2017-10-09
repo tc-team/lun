@@ -7,6 +7,7 @@
   &--steps-controlls {
     text-align: center;
     margin: 16px;
+    display: inline-block;
 
     &-button {
       display: inline-block;
@@ -20,59 +21,104 @@
       border-radius: 2px;
       border: 0;
       box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-      background-color: #fff;
+      background-color: #ffffff;
       cursor: pointer;
       outline: 0;
       &.current {}
       &.completed {
         color: $color-primary;
       }
+      &.finish {
+        background-color: $color-primary;
+        color: #ffffff
+      }
       // &:disabled {
       //   color: graytext;
       // }
     }
+
+    &-description {
+      margin-top: 16px;
+      margin-bottom: 40px;
+      text-align: left;
+      color: $color-label;
+    }
   }
 
-  &--form {
-    max-width: 400px;
+  &-form {
+    // max-width: 400px;
     margin: 16px auto 150px;
 
-    &-legend {
-      margin-bottom: 40px;
+    &--legend {
+      // margin-top: 16px;
+      // margin-bottom: 40px;
+      // text-align: left;
     }
 
     // formGroups:
-
     // 1. general
+    &--general {
+      max-width: 350px;
+      margin: 0 auto;
+    }
+
     // 2. location
+    &--location {
+      max-width: 350px;
+      margin: 0 auto;
+    }
+
     // 3. social
+    &--social {
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
 
     // 4.favorite
-    &-pet-item {
-      width: 150px;
-      height: 150px;
-      border-radius: 2px;
-      // & > input:checked + .profile--form-pet-item--image {
-      //     border-color: $color-primary;;
-      // }
-
-      &--input {
+    &--favorite {
+      max-width: 800px;
+      margin: 0 auto;
+      &-pet {
+        width: 150px;
+        height: 150px;
+        border-radius: 2px;
+        // & > input:checked + .profile--form-pet-item--image {
+        //     border-color: $color-primary;;
+        // }
+      }
+      &-input {
         &:checked {
-          & ~ .profile--form-pet-item--image { outline-color: $color-primary; }
+          & ~ .profile-form--favorite-image { outline-color: $color-primary; }
         }
       }
 
-      &--image {
+      &-image {
         outline: 2px solid;
         outline-color: transparent;
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
       }
+
     }
   }
 
-  &--actions {}
+  &-preview {
+    padding: 24px;
+
+    &--image {
+      width: 200px;
+      height: 195px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+  }
+
+  &--actions {
+
+  }
 }
 
 

@@ -4,6 +4,7 @@ export class ValidationService {
   static PATTERN = {
     // RFC 2822 compliant rege
     EMAIL: /([\w+\.]+)@([\w\.]+)\.(\w+)/g,
+    LINK: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi,
   };
 
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
@@ -11,8 +12,10 @@ export class ValidationService {
       'required': 'Required',
       'invalid': validatorValue,
       'invalidEmailAddress': 'Invalid email address',
+      'invalidLink': 'Invalid link address',
       'minlength': `Minimum length ${validatorValue.requiredLength}`,
-      'wrongPet': 'You must select cat.'
+      'wrongPet': 'You chose a dog. And you need a cat.',
+      'provideLink': 'Provade your social link'
     };
 
     return config[validatorName];
@@ -20,6 +23,14 @@ export class ValidationService {
 
   static isPresent(obj: any): boolean {
     return obj !== undefined && obj !== null;
+  }
+
+  static linkValidator(control) {
+    if ( control.value.match(ValidationService.PATTERN.LINK) ) {
+      return null;
+    } else {
+      return { 'invalidLink': true };
+    }
   }
 
   static emailValidator(control) {
@@ -47,11 +58,16 @@ export class ValidationService {
     };
   }
 
-  static dynamicRequiredValidator(g: FormGroup) {
-    const value = g.get('selected').value;
-    const control = g.get('link');
 
-    value ? control.setValidators(Validators.required) : control.clearValidators();
-    // return
+  static dynamicRequiredValidator(g: FormGroup) {
+    const selected = g.get('selected').value;
+    const link = g.get('link').value;
+    // console.log(control.match(ValidationService.PATTERN.LINK));
+
+    // value ? control.setValidators(Validators.required) : control.clearValidators();
+    //  && link.match(ValidationService.PATTERN.LINK)
+    return (selected) ? { 'provideLink': true } : null;
+    // console.log(v);
+    // return v;
   }
 }

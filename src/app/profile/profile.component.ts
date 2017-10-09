@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { BrowserModule, DomSanitizer, SafeStyle } from '@angular/platform-browser'
+import { BrowserModule, DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 import { ProfileService } from './profile.service';
 import { ValidationService } from '../utils/services/validation.service';
 import { AlertService } from '../utils/services/alert.service';
 
-import { StepsMap, StepsTitle, SocialList, PetsList } from './profile.config';
+import { StepsMap, StepsDescription, SocialList, PetsList } from './profile.config';
 
 export interface Countries {
   [ index: string ]: string;
@@ -31,28 +31,34 @@ export class ProfileComponent implements OnInit {
 
   private currentStep = 1;
   private stepsMap: Object;
+  private stepsDescriptionMap: Object;
   private stepsTitle: Array<Object>;
   private socialList: Array<Object>;
   private petsList: Array<Object>;
 
   countries: any;
   cities: any;
+  iterableCitiesMap: any;
+  isCountryCitiesPresented: boolean;
 
   profileForm: FormGroup;
+  profileData: Object;
+  copmleteForm = false;
 
   constructor(
     private _builder: FormBuilder,
-    private _sanitizer:DomSanitizer,
+    private _sanitizer: DomSanitizer,
     private _alertService: AlertService,
     private _profileService: ProfileService
   ) {
 
     this.stepsMap = StepsMap;
-    this.stepsTitle = StepsTitle;
+    this.stepsDescriptionMap = StepsDescription;
     this.socialList = SocialList;
     this.petsList = PetsList;
 
     this.profileFormTrigger = false;
+    this.isCountryCitiesPresented = true;
 
     // Form __builder and validation configuration
     this.profileForm = _builder.group({
@@ -72,20 +78,17 @@ export class ProfileComponent implements OnInit {
       social: _builder.group({
         fb: _builder.group({
           selected: [false, [ Validators.required ]],
-          link: ['', []]
-        }, { validator : ValidationService.dynamicRequiredValidator } ),
+        }),
         vk: _builder.group({
           selected: [false, [ Validators.required ]],
-          link: ['', []]
-        }, { validator : ValidationService.dynamicRequiredValidator } ),
+        }),
         tw: _builder.group({
           selected: [false, [ Validators.required ]],
-          link: ['', []]
-        }, { validator : ValidationService.dynamicRequiredValidator } ),
+        }),
         ok: _builder.group({
           selected: [false, [ Validators.required ]],
-          link: ['', []]
-        }, { validator : ValidationService.dynamicRequiredValidator } )
+        })
+        //  { validator : ValidationService.dynamicRequiredValidator } )
       }),
       // step 4
       favorite: _builder.group({
@@ -101,14 +104,18 @@ export class ProfileComponent implements OnInit {
 
   public onSubmitProfileForm(event: Event): void { }
 
+  public completeProfileForm(): void {
+    this.copmleteForm = true;
+    console.log(this.profileForm.value);
+    this.profileData = this.profileForm.value;
+  }
+
   private buildSocial() {
     // const arr = this.socialList.map((service) => {
-    //    return new FormGroup({
-    //     selected: new FormControl(false, [Validators.required]),
-    //     link: new FormControl('', [Validators.minLength(2)]),
-    //   });
-    //
-    //   // return service.value;
+    //    return this._builder.group({
+    //      selected: [false, [ Validators.required ]],
+    //      link: ['', []]
+    //    }, { validator : ValidationService.dynamicRequiredValidator });
     //
     //   // return this._builder.control(false);
     //
@@ -117,7 +124,7 @@ export class ProfileComponent implements OnInit {
     //   //     link: ['', []],
     //   //   });
     // });
-    // console.log(this._builder.group(...arr));
+    // console.log(this._builder.group(arr));
     // return this._builder.group(...arr);
 
     // return this._builder.group({
@@ -129,13 +136,17 @@ export class ProfileComponent implements OnInit {
     //   return this._builder.control(`${service['value']}`: []);
     //
     // });
-
   }
 
 
   /*
    * Step handlers
    */
+
+  // Returns string with step description
+  public getStepsDescription(): string {
+    return `${this.stepsDescriptionMap[ this.currentStep ].number}. ${this.stepsDescriptionMap[ this.currentStep ].descr}`;
+  }
 
   public setStep(stepIndex: number): void {
     this.currentStep = stepIndex;
@@ -148,24 +159,23 @@ export class ProfileComponent implements OnInit {
   }
 
   public decrementStep(): void {
-    // this.currentStep--;
     this.setStep(--this.currentStep);
   }
   public incrementStep(): void {
-    // this.currentStep++;
-    this.setStep(++this.currentStep);
+    this.currentStep === 4
+      ? this.completeProfileForm() : this.setStep(++this.currentStep);
   }
 
   public canActivateStep(index?: number): Boolean {
     const controls = this.profileForm.controls[ this.stepToControllName(index ? index : this.currentStep) ];
-    return (controls.valid) ? false : true ;;
+    return (controls.valid) ? false : true ;
   }
 
   public activatePrevStepControll(): Boolean {
     return this.currentStep === 1 ? true : false;
   }
   public activateNextStepControll(): Boolean {
-    return this.profileForm.controls[ this.stepToControllName(this.currentStep) ].invalid ? true : false;;
+    return this.profileForm.controls[ this.stepToControllName(this.currentStep) ].invalid ? true : false;
   }
 
   // Bypass security and trust the given value to be safe style value
@@ -173,9 +183,14 @@ export class ProfileComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustStyle (`url(${url})` );
   }
 
-  public getNextButtonText(): string {
-    return this.currentStep === 4 ? 'Complete'  : 'Next  >';
+  // public getNextButtonText(): string {
+  //   return this.currentStep === 4 ? 'Complete'  : 'Next  >';
+  // }
+  public getNextButtonConfig(): Object {
+    return this.currentStep === 4
+      ? {'text': 'Complete', 'class': 'finish'} : {'text': 'Next  >', 'class': 'completed'} ;
   }
+
 
   /*
    * Form handlers
@@ -183,11 +198,26 @@ export class ProfileComponent implements OnInit {
 
   public setCountry(event: any): void {
     // console.log(event);
+    // clear City select
+    this.profileForm.get('location').get('city').reset('');
+    // Load selected country cities
     this.loadCities( Number(event.target.value) );
   }
 
   public setCity(event: Event): void {}
 
+  public onSocialChange(event: any, formGroupName: string): void {
+    const formControl = new FormControl('', [Validators.required, ValidationService.linkValidator]);
+    // this.profileForm.controls['social'].controls[formGroupName];
+    const formGroup = this.profileForm.get(`social.${formGroupName}`) as FormGroup;
+    // console.log(formGroup);
+    // console.log(formControl);
+    if ((event.target.checked)) {
+      formGroup.setControl('link', formControl);
+    } else {
+      formGroup.removeControl('link');
+    }
+  }
 
   /*
    * Data load
@@ -206,6 +236,9 @@ export class ProfileComponent implements OnInit {
     this._profileService.getCities(cityId).subscribe(
       (result) => {
         this.cities = result;
+        // call mapToIterable() once for check empty cities object and *ngFor directive
+        this.iterableCitiesMap = this.mapToIterable(this.cities);
+        this.isCountryCitiesPresented = Boolean(this.iterableCitiesMap.length);
       },
       (error) => this._alertService.error(error),
     );
