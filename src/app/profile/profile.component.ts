@@ -107,7 +107,14 @@ export class ProfileComponent implements OnInit {
   public completeProfileForm(): void {
     this.copmleteForm = true;
     console.log(this.profileForm.value);
-    this.profileData = this.profileForm.value;
+    this.profileData = Object.assign(
+      {}, {
+        'name': this.profileForm.value.general.name,
+        'email': this.profileForm.value.general.email,
+        'address': this.profileForm.value.location.city + ', ' + this.profileForm.value.location.country,
+        'social': this.getSocialForDisplay(this.profileForm.value.social),
+        'pet': this.profileForm.value.favorite.pet
+      });
   }
 
   private buildSocial() {
@@ -197,7 +204,6 @@ export class ProfileComponent implements OnInit {
    */
 
   public setCountry(event: any): void {
-    // console.log(event);
     // clear City select
     this.profileForm.get('location').get('city').reset('');
     // Load selected country cities
@@ -208,15 +214,9 @@ export class ProfileComponent implements OnInit {
 
   public onSocialChange(event: any, formGroupName: string): void {
     const formControl = new FormControl('', [Validators.required, ValidationService.linkValidator]);
-    // this.profileForm.controls['social'].controls[formGroupName];
     const formGroup = this.profileForm.get(`social.${formGroupName}`) as FormGroup;
-    // console.log(formGroup);
-    // console.log(formControl);
-    if ((event.target.checked)) {
-      formGroup.setControl('link', formControl);
-    } else {
-      formGroup.removeControl('link');
-    }
+
+    (event.target.checked) ? formGroup.setControl('link', formControl) : formGroup.removeControl('link');
   }
 
   /*
@@ -256,8 +256,19 @@ export class ProfileComponent implements OnInit {
 
   // Return form controll name basen on current step number
   private stepToControllName(stepNumber: number): any {
-    return this.stepsMap[`${stepNumber}`];
+    return this.stepsDescriptionMap[`${stepNumber}`].name;
   }
 
+  // Return array of provided social links
+  private getSocialForDisplay(objLinks: Object): Array<object> {
+    const arr = new Array();
 
+    for (let key in objLinks) {
+      if (objLinks[key].selected) {
+        arr.push({ 'name': key, 'link': objLinks[key].link });
+      }
+    }
+
+    return arr;
+  }
 }

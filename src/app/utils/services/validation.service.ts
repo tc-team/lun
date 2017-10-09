@@ -4,7 +4,7 @@ export class ValidationService {
   static PATTERN = {
     // RFC 2822 compliant rege
     EMAIL: /([\w+\.]+)@([\w\.]+)\.(\w+)/g,
-    LINK: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi,
+    LINK: /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{1,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi,
   };
 
   static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {

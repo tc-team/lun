@@ -4,7 +4,7 @@
   background-color: #f5f5f5;
   font-size: 15px;
 
-  &--steps-controlls {
+  &-controlls {
     text-align: center;
     margin: 16px;
     display: inline-block;
@@ -106,14 +106,54 @@
 
   &-preview {
     padding: 24px;
+    background-color: #ffffff;
+    display: inline-block;
 
-    &--image {
-      width: 200px;
+    // Block
+    &--content {
       height: 195px;
+      text-align: left;
+      padding-right: 200px;
+      // background: url(assets/images/cat2.jpg);
       background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+      background-size: 200px 195px;
+      background-position-x: right;
     }
+    &--info {
+      position: relative;
+      padding-right: 24px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    // &--image {
+    //   width: 200px;
+    //   height: 195px;
+    //   display: inline-block;
+    //   vertical-align: middle;
+    // }
+
+    // Elements
+    &--name {
+      font-size: 20px;
+    }
+    &--email {
+      font-size: 15px;
+      color: $color-label;
+      margin: 12px 0;
+    }
+    &--address {
+      font-size: 15px;
+      color: $color-label;
+    }
+    &--social {
+      font-size: 15px;
+      color: $color-label;
+      &-name { color: #0000ff;}
+      &-link {}
+    }
+
   }
 
   &--actions {
