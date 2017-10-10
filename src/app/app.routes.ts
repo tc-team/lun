@@ -1,9 +1,9 @@
 // Imports
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { Routes, RouterModule }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
-import { indexRoutes }           from './index/index.routes';
-import { profileRoutes }         from './profile/profile.routes';
+import { indexRoutes } from './index/index.routes';
+import { profileRoutes } from './profile/profile.routes';
 
 
 // Route Configuration
@@ -11,9 +11,8 @@ const routes: Routes = [
   // {
   //   path: '**', component: IndexComponent,
   // },
-  // Add routes form a different files
+  ...indexRoutes,
   ...profileRoutes
-
 ];
 
 // Deprecated provide
@@ -23,10 +22,12 @@ const routes: Routes = [
 
 
 // export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });
+// imports: [ RouterModule.forRoot(routes, {useHash: true}) ],
 
 // exporting routes
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, {useHash: true}) ],
+  imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule ]
 })
-export class routingModule {}
+
+export class RoutingModule {}

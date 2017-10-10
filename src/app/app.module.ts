@@ -14,6 +14,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileFormComponent } from './profile/profile-form/profile-form.component';
+// import { ProfileGeneralComponent } from './profile/profile-general/profile-general.component';
+// import { ProfileLocationComponent } from './profile/profile-location/profile-location.component';
+// import { ProfileSocialComponent } from './profile/profile-social/profile-social.component';
+// import { ProfileFavouriteComponent } from './profile/profile-favourite/profile-favourite.component';
+import { ProfileResultComponent } from './profile/profile-result/profile-result.component';
+
+
 import { ProfileService } from './profile/profile.service';
 
 // Modules
@@ -21,21 +29,28 @@ import { ControlMessagesModule } from './utils/components/control-messages.modul
 import { AlertModule } from './utils/components/alert.module';
 
 // Routing
-import { routingModule } from './app.routes';
+import { RoutingModule } from './app.routes';
 
 // Utils
 import { ValidationService } from './utils/services/validation.service';
 import { AlertService } from './utils/services/alert.service';
-import { ClearQuotes } from './utils/pipes/clearQuotes.pipe';
+// import { ClearQuotes } from './utils/pipes/clearQuotes.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
 
-    ClearQuotes,
+    // ClearQuotes,
 
     // Components
-    ProfileComponent
+    IndexComponent,
+    ProfileComponent,
+    ProfileFormComponent,
+    // ProfileGeneralComponent,
+    // ProfileLocationComponent,
+    // ProfileSocialComponent,
+    // ProfileFavouriteComponent,
+    ProfileResultComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +58,7 @@ import { ClearQuotes } from './utils/pipes/clearQuotes.pipe';
     ReactiveFormsModule,
     HttpModule,
     RouterModule,
-    routingModule,
+    RoutingModule,
 
     ControlMessagesModule,
     AlertModule

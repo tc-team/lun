@@ -1,0 +1,99 @@
+<!-- steps controlls -->
+<div class="profile-controlls">
+  <div class="profile-controlls-inner">
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(1)" (click)="setStep(1)" [disabled]="canActivateStep(1)">1</button>  <!-- routerLink='general' -->
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(2)" (click)="setStep(2)" [disabled]="canActivateStep(2)">2</button>  <!-- routerLink='location' -->
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(3)" (click)="setStep(3)" [disabled]="canActivateStep(3)">3</button>  <!-- routerLink='social' -->
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(4)" (click)="setStep(4)" [disabled]="canActivateStep(4)">4</button>  <!-- routerLink='favorite' -->
+    <div class="profile-controlls-description">{{getStepsDescription()}}</div>
+  </div>
+</div>
+
+
+<!-- form -->
+<div *ngIf="!copmleteForm" class="profile-form">
+  <form class="form form--full"
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmitProfileForm($event)"
+        novalidate
+        [ngSwitch]="currentStep" >
+
+    <fieldset *ngSwitchCase="1" formGroupName="general" name="general" class="profile-form--general">
+      <!-- <legend class="profile-form--legend">1. Enter name and email</legend> -->
+      <div class="form-group form-group--spaced-bottom">
+        <input formControlName="name" name="name" type="text"
+               class="form-input form-input--default form-input--full form-input--white-bg"
+               placeholder="Name" />
+        <app-control-messages [control]="profileForm.get('general').get('name')"></app-control-messages>
+      </div>
+      <div class="form-group form-group--spaced-bottom">
+        <input formControlName="email" name="email" type="text"
+               class="form-input form-input--default form-input--full form-input--white-bg"
+               placeholder="Email" />
+        <app-control-messages [control]="profileForm.get('general').get('email')"></app-control-messages>
+      </div>
+    </fieldset>
+
+    <fieldset *ngSwitchCase="2" formGroupName="location" name="location" class="profile-form--location">
+      <!-- <legend class="profile-form--legend">2. Enter location</legend> -->
+      <div class="form-group form-group--spaced-bottom">
+        <select formControlName="country" class="form-select form-select--medium form-select--full country-select" (change)="setCountry($event)">
+          <option value="" disabled selected>Country</option>
+          <option *ngFor="let key of mapToIterable(countries); let i = index" [attr.value]="key">{{countries[key]}}</option>
+        </select>
+      </div>
+      <div class="form-group form-group--spaced-bottom">
+        <select *ngIf="isCountryCitiesPresented"
+                formControlName="city" class="form-select form-select--medium form-select--full country-select">  <!-- (change)="setCity($event)" -->
+          <option value="" disabled selected>City</option>
+          <option *ngFor="let key of iterableCitiesMap; let i = index" [attr.value]="key">{{cities[key].name}}</option>
+        </select>
+        <input *ngIf="!isCountryCitiesPresented"
+               formControlName="city" name="city" type="text"
+               class="form-input form-input--default form-input--full form-input--white-bg"
+               placeholder="Enter City" />
+        <app-control-messages *ngIf="!isCountryCitiesPresented" [control]="profileForm.get('location').get('city')"></app-control-messages>
+      </div>
+    </fieldset>
+
+    <fieldset *ngSwitchCase="3" formGroupName="social" name="social" class="profile-form--social">
+      <!-- <legend class="profile-form--legend">3. Provide social network links</legend> -->
+      <div class="form-group" *ngFor="let link of socialList; let i = index" [formGroupName]="link.value">
+        <div class="form-checkbox form-group--full">
+          <div class="form-group-flex clearfix">
+            <input formControlName="selected" name="selected" type="checkbox" (change)="onSocialChange($event, link.value)" />
+            <label [for]="link.value" class="form-group-flex-item">{{link.display}}</label>
+            <input *ngIf="profileForm.get('social').get(link.value).get('selected').value"
+                   formControlName="link" name="link" type="text"
+                   class="form-group-flex-item form-input form-input--right form-input--default form-input--white-bg"
+                   [placeholder]="link.placeholder" />
+          </div>
+        </div>
+        <app-control-messages [control]="profileForm.get('social').get(link.value)"></app-control-messages>
+      </div>
+    </fieldset>
+
+    <fieldset *ngSwitchCase="4" formGroupName="favorite" name="favorite" class="profile-form--favorite">
+      <!-- <legend class="profile-form--legend">4. Select your favourite pet</legend> -->
+      <div class="form-group form-group--spaced-bottom">
+        <div class="form-group-flex clearfix">
+          <div class="profile-form--favorite-pet form-radio form-group-flex-item form-group-flex--spaced" *ngFor="let pet of petsList">
+            <input formControlName="pet" class="profile-form--favorite-input form-radio--input" attr.id="pet-{{pet.name}}" value={{pet.pictureUrl}}
+              type="radio" name="pet" />
+            <div class="profile-form--favorite-image form-radio--image" [style.backgroundImage]="backgroundImg(pet.pictureUrl)">
+            </div>
+          </div>
+        </div>
+        <app-control-messages [control]="profileForm.get('favorite').get('pet')"></app-control-messages>
+      </div>
+    </fieldset>
+
+  </form>
+</div>
+
+
+<!-- actions controlls -->
+<div class="profile-controlls">
+  <button class="profile-controlls-button completed" type="button" name="Prev" (click)="decrementStep()" [disabled]="activatePrevStepControll()"><  Prev</button>
+  <button class="profile-controlls-button" [ngClass]="getNextButtonConfig().class" type="button" name="Next" (click)="incrementStep()" [disabled]="activateNextStepControll()">{{ getNextButtonConfig().text }}</button>
+</div>

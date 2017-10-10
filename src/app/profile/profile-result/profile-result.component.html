@@ -1,0 +1,34 @@
+<!-- <p>
+  profile-result works!
+</p> -->
+
+<div class="profile full table">
+  <div class="table-cell table-center">
+    <div class="container text-center">
+
+
+      <!-- preview  -->
+      <div class="profile-preview clearfix">
+        <div class="profile-preview--content" [style.backgroundImage]="backgroundImg(profileData.pet)">
+          <div class="profile-preview--info">
+            <div>
+              <div class="profile-preview--name">{{profileData.name}}</div>
+              <div class="profile-preview--email">{{profileData.email}}</div>
+            </div>
+            <div class="profile-preview--address">{{profileData.address}}</div>
+            <div class="profile-preview--social">
+              <div *ngFor="let item of profileData.social">
+                <span class="profile-preview--social-name">{{item.name}}</span>: <span class="profile-preview--social-link">{{item.link}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-controlls">
+        <button class="profile-controlls-button finish" type="button" name="Next" (click)="clearFormData()">Try again</button>
+      </div>
+
+
+    </div>
+  </div>
+</div>
