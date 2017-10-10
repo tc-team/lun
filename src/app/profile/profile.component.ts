@@ -29,6 +29,26 @@ export interface Cities {
 
 export class ProfileComponent implements OnInit {
 
+  private formState = {
+    general: {
+      name: '',
+      email: ''
+    },
+    location: {
+      country: '',
+      city: ''
+    },
+    social: {
+      fb: false,
+      vk: false,
+      tw: false,
+      ok: false
+    },
+    favorite: {
+      pet: ''
+    }
+  };
+
   private profileFormTrigger: boolean;
 
   private currentStep = 1;
@@ -204,10 +224,11 @@ export class ProfileComponent implements OnInit {
   public clearFormData(): void {
     // Remove added 'link' FormControlls
     this.socialList.forEach((curValue, index, array) => {
-      let formGroup = this.profileForm.get(`social.${curValue['value']}`) as FormGroup;
+      const formGroup = this.profileForm.get(`social.${curValue['value']}`) as FormGroup;
       formGroup.removeControl('link');
     });
-    // this.profileForm.reset();
+    this.profileForm.reset(this.formState);
+    this.copmleteForm = false;
     this.currentStep = 1;
   }
 
