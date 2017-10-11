@@ -95,6 +95,6 @@
 <!-- actions controlls -->
 <div class="profile-controlls">
   <button class="profile-controlls-button completed" type="button" name="Prev" (click)="decrementStep()" [disabled]="activatePrevStepControll()"><  Prev</button>
-  <button class="profile-controlls-button" [ngClass]="getNextButtonConfig().class" type="button" name="Next" (click)="incrementStep()" [disabled]="activateNextStepControll()">{{ getNextButtonConfig().text }}</button>
+  <button class="profile-controlls-button" [ngClass]="getNextButtonConfig()['class']" type="button" name="Next" (click)="incrementStep()" [disabled]="activateNextStepControll()">{{ getNextButtonConfig()['text'] }}</button>
 </div>
 <!-- actions controlls -->

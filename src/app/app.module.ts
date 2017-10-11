@@ -30,13 +30,10 @@ import { RoutingModule } from './app.routes';
 // Utils
 import { ValidationService } from './utils/services/validation.service';
 import { AlertService } from './utils/services/alert.service';
-// import { ClearQuotes } from './utils/pipes/clearQuotes.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-
-    // ClearQuotes,
 
     // Components
     IndexComponent,

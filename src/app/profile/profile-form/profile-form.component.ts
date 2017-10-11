@@ -53,7 +53,7 @@ export class ProfileFormComponent implements OnInit {
 
     private profileFormTrigger: boolean;
 
-    private currentStep = 1;
+    public currentStep = 1;
     private stepsMap: Object;
     private stepsDescriptionMap: Object;
     private stepsTitle: Array<Object>;
