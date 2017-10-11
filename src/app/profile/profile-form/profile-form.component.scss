@@ -27,8 +27,8 @@
       background-color: #ffffff;
       cursor: pointer;
       outline: 0;
-      &:disabled { color: gray; background-color: initial; }
-      &.current {}
+      // &:disabled { color: gray; background-color: initial; }
+      &.current {  }
       &.completed { color: $color-primary; }
       &.finish {
         background-color: $color-primary;

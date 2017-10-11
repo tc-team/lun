@@ -187,8 +187,8 @@ export class ProfileFormComponent implements OnInit {
         ? this.completeProfileForm() : this.setStep(++this.currentStep);
     }
 
-    public canActivateStep(index?: number): Boolean {
-      const controls = this.profileForm.controls[ this.stepToControllName(index ? index : this.currentStep) ];
+    public canActivateStep(index: number): Boolean {
+      const controls = this.profileForm.controls[ this.stepToControllName(index) ];
       return (controls.valid && this.currentStep > index) ? false : true ;
     }
 

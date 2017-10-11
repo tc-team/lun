@@ -1,10 +1,10 @@
 <!-- steps controlls -->
 <div class="profile-controlls">
   <div class="profile-controlls-inner">
-    <button class="profile-controlls-button" [ngClass]="isCurrentStep(1)" (click)="setStep(1)" [disabled]="canActivateStep(1)">1</button>  <!-- routerLink='general' -->
-    <button class="profile-controlls-button" [ngClass]="isCurrentStep(2)" (click)="setStep(2)" [disabled]="canActivateStep(2)">2</button>  <!-- routerLink='location' -->
-    <button class="profile-controlls-button" [ngClass]="isCurrentStep(3)" (click)="setStep(3)" [disabled]="canActivateStep(3)">3</button>  <!-- routerLink='social' -->
-    <button class="profile-controlls-button" [ngClass]="isCurrentStep(4)" (click)="setStep(4)" [disabled]="canActivateStep(4)">4</button>  <!-- routerLink='favorite' -->
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(1)" (click)="setStep(1)">1</button>
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(2)" (click)="setStep(2)" [disabled]="canActivateStep(1)">2</button>
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(3)" (click)="setStep(3)" [disabled]="canActivateStep(2)">3</button>
+    <button class="profile-controlls-button" [ngClass]="isCurrentStep(4)" (click)="setStep(4)" [disabled]="canActivateStep(3)">4</button>
     <div class="profile-controlls-description">{{getStepsDescription()}}</div>
   </div>
 </div>
