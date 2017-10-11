@@ -1,12 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { BrowserModule, DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ProfileService } from './../profile.service';
 import { ValidationService } from '../../utils/services/validation.service';
 import { AlertService } from '../../utils/services/alert.service';
 
 import { StepsMap, StepsDescription, SocialList, PetsList } from './../profile.config';
+
+import { ProfileData } from '../../utils/models/ProfileData';
 
 export interface Countries {
   [ index: string ]: string;
@@ -63,10 +66,11 @@ export class ProfileFormComponent implements OnInit {
     isCountryCitiesPresented: boolean;
 
     profileForm: FormGroup;
-    profileData: Object;
+    profileData: ProfileData = <ProfileData>{};
     copmleteForm = false;
 
     constructor(
+      private _router: Router,
       private _builder: FormBuilder,
       private _sanitizer: DomSanitizer,
       private _alertService: AlertService,
@@ -81,11 +85,11 @@ export class ProfileFormComponent implements OnInit {
       this.profileFormTrigger = false;
       this.isCountryCitiesPresented = true;
 
+
       // Form __builder and validation configuration
       this.profileForm = _builder.group({
         // step 1
         general: _builder.group({
-          // crawler_link: [{value: '', disabled: false}, [ Validators.required ]],
           name: ['', [ Validators.required, Validators.minLength(3) ] ],
           email: ['', [ Validators.required, ValidationService.emailValidator ] ]
         }),
@@ -95,7 +99,6 @@ export class ProfileFormComponent implements OnInit {
           city: ['', [ Validators.required ] ],
         }),
         // step 3
-        // social: _builder.group({ this.buildSocial() }),
         social: _builder.group({
           fb: _builder.group({
             selected: [false, [ Validators.required ]],
@@ -119,7 +122,6 @@ export class ProfileFormComponent implements OnInit {
     }
 
     ngOnInit() {
-      // this.buildSocial();
       this.loadCountries();
     }
 
@@ -127,43 +129,34 @@ export class ProfileFormComponent implements OnInit {
 
     public completeProfileForm(): void {
       this.copmleteForm = true;
-      console.log(this.profileForm.value);
-      this.profileData = Object.assign(
-        {}, {
-          'name': this.profileForm.value.general.name,
-          'email': this.profileForm.value.general.email,
-          'address': this.getCountryNameById(this.profileForm.value.location.country) + ', ' + this.getCityById(this.profileForm.value.location.city).name,
-          'social': this.getSocialForDisplay(this.profileForm.value.social),
-          'pet': this.profileForm.value.favorite.pet
-        });
-    }
 
-    private buildSocial() {
-      // const arr = this.socialList.map((service) => {
-      //    return this._builder.group({
-      //      selected: [false, [ Validators.required ]],
-      //      link: ['', []]
-      //    }, { validator : ValidationService.dynamicRequiredValidator });
+      // let {
+      //   general: { name: name },
+      //   general: { email: email },
+      //   location: address,
+      //   social: social,
+      //   favorite: { pet: pet }
+      // } = this.profileForm.value;
       //
-      //   // return this._builder.control(false);
-      //
-      //   // return _builder.group({
-      //   //     selected: [false, [Validators.required]],
-      //   //     link: ['', []],
-      //   //   });
-      // });
-      // console.log(this._builder.group(arr));
-      // return this._builder.group(...arr);
+      // this._profileService.profileData = {
+      //   'name': name,
+      //   'email': email,
+      //   'address': this.getCountryNameById(address.country) + ', ' + this.getCityById(address.city).name,
+      //   'social': this.getSocialForDisplay(social),
+      //   'pet': pet
+      // } as ProfileData;
 
-      // return this._builder.group({
-      //       street: ['', Validators.required],
-      //       postcode: ['']
-      //   });
+      this.profileData = {
+        'name': this.profileForm.value.general.name,
+        'email': this.profileForm.value.general.email,
+        'address': this.getCountryNameById(this.profileForm.value.location.country) + ', ' + this.getCityById(this.profileForm.value.location.city).name,
+        'social': this.getSocialForDisplay(this.profileForm.value.social),
+        'pet': this.profileForm.value.favorite.pet
+      };
 
-      // const arr = this.socialList.map(service => {
-      //   return this._builder.control(`${service['value']}`: []);
-      //
-      // });
+      this._profileService.profileData = this.profileData;
+      this.clearFormData();
+      this._router.navigateByUrl('/profile/preview');
     }
 
 
@@ -211,9 +204,6 @@ export class ProfileFormComponent implements OnInit {
       return this._sanitizer.bypassSecurityTrustStyle (`url(${url})` );
     }
 
-    // public getNextButtonText(): string {
-    //   return this.currentStep === 4 ? 'Complete'  : 'Next  >';
-    // }
     public getNextButtonConfig(): Object {
       return this.currentStep === 4
         ? {'text': 'Complete', 'class': 'finish'} : {'text': 'Next  >', 'class': 'completed'} ;
@@ -227,8 +217,6 @@ export class ProfileFormComponent implements OnInit {
         formGroup.removeControl('link');
       });
       this.profileForm.reset(this.formState);
-      this.copmleteForm = false;
-      this.currentStep = 1;
     }
 
 

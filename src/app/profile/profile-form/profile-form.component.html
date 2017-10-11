@@ -8,10 +8,10 @@
     <div class="profile-controlls-description">{{getStepsDescription()}}</div>
   </div>
 </div>
-
+<!-- steps controlls -->
 
 <!-- form -->
-<div *ngIf="!copmleteForm" class="profile-form">
+<div class="profile-form">
   <form class="form form--full"
         [formGroup]="profileForm"
         (ngSubmit)="onSubmitProfileForm($event)"
@@ -90,10 +90,11 @@
 
   </form>
 </div>
-
+<!-- form -->
 
 <!-- actions controlls -->
 <div class="profile-controlls">
   <button class="profile-controlls-button completed" type="button" name="Prev" (click)="decrementStep()" [disabled]="activatePrevStepControll()"><  Prev</button>
   <button class="profile-controlls-button" [ngClass]="getNextButtonConfig().class" type="button" name="Next" (click)="incrementStep()" [disabled]="activateNextStepControll()">{{ getNextButtonConfig().text }}</button>
 </div>
+<!-- actions controlls -->

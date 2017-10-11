@@ -7,13 +7,36 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
+import { ProfileData } from './../utils/models/ProfileData';
+
+
 @Injectable()
 export class ProfileService {
+
+  private _profileData: ProfileData = <ProfileData>{};
 
   constructor(
     private _http: Http
   ) {
 
+  }
+
+  /**
+   * Return profile data
+   * @function {profileData}
+   * @return {ProfileData} - profile data
+   */
+  get profileData(): ProfileData {
+    return this._profileData;
+  }
+
+  set profileData(info: ProfileData) {
+    this._profileData = info;
+    // return;
+  }
+
+  public clearProfileData(): void {
+    this._profileData = <ProfileData>{};
   }
 
   /**

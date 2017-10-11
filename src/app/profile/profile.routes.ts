@@ -2,10 +2,6 @@ import { Routes } from '@angular/router';
 
 import { ProfileComponent } from './profile.component';
 import { ProfileFormComponent } from './profile-form/profile-form.component';
-import { ProfileGeneralComponent } from './profile-general/profile-general.component';
-import { ProfileLocationComponent } from './profile-location/profile-location.component';
-import { ProfileSocialComponent } from './profile-social/profile-social.component';
-import { ProfileFavouriteComponent } from './profile-favourite/profile-favourite.component';
 import { ProfileResultComponent } from './profile-result/profile-result.component';
 
 
@@ -22,7 +18,7 @@ export const profileRoutes: Routes = [{
     data: { title: 'Profile Form' },
     component: ProfileFormComponent,
   }, {
-    path: 'view',
+    path: 'preview',
     data: { title: 'Profile Preview' },
     component: ProfileResultComponent
   }]

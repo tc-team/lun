@@ -1,0 +1,91 @@
+@import '~styles/_variables';
+
+.profile {
+
+  &-controlls {
+    text-align: center;
+    margin: 16px;
+    display: inline-block;
+
+    &-inner {
+      display: inline-block;
+      text-align: left;
+    }
+
+    &-button {
+      display: inline-block;
+      font-size: 16px;
+      padding: 8px 16px;
+      margin: 2px;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: middle;
+      line-height: 24px;
+      border-radius: 2px;
+      border: 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      background-color: #ffffff;
+      cursor: pointer;
+      outline: 0;
+      &:disabled { color: gray; background-color: initial; }
+      &.current {}
+      &.completed { color: $color-primary; }
+      &.finish {
+        background-color: $color-primary;
+        color: #ffffff
+      }
+    }
+
+    &-description {
+      margin-top: 16px;
+      margin-bottom: 40px;
+      text-align: left;
+      color: $color-label;
+    }
+  }
+
+  &-preview {
+    padding: 24px;
+    background-color: #ffffff;
+    display: inline-block;
+
+    // Block
+    &--content {
+      height: 195px;
+      text-align: left;
+      padding-right: 200px;;
+      background-repeat: no-repeat;
+      background-size: 200px 195px;
+      background-position-x: right;
+    }
+    &--info {
+      position: relative;
+      padding-right: 24px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    // Elements
+    &--name {
+      font-size: 20px;
+    }
+    &--email {
+      font-size: 15px;
+      color: $color-label;
+      margin: 12px 0;
+    }
+    &--address {
+      font-size: 15px;
+      color: $color-label;
+    }
+    &--social {
+      font-size: 15px;
+      color: $color-label;
+      &-name { color: #0000ff;}
+      &-link {}
+    }
+
+  }
+}

@@ -15,13 +15,9 @@ import { AppComponent } from './app.component';
 import { IndexComponent } from './index/index.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileFormComponent } from './profile/profile-form/profile-form.component';
-// import { ProfileGeneralComponent } from './profile/profile-general/profile-general.component';
-// import { ProfileLocationComponent } from './profile/profile-location/profile-location.component';
-// import { ProfileSocialComponent } from './profile/profile-social/profile-social.component';
-// import { ProfileFavouriteComponent } from './profile/profile-favourite/profile-favourite.component';
 import { ProfileResultComponent } from './profile/profile-result/profile-result.component';
 
-
+//
 import { ProfileService } from './profile/profile.service';
 
 // Modules
@@ -46,10 +42,6 @@ import { AlertService } from './utils/services/alert.service';
     IndexComponent,
     ProfileComponent,
     ProfileFormComponent,
-    // ProfileGeneralComponent,
-    // ProfileLocationComponent,
-    // ProfileSocialComponent,
-    // ProfileFavouriteComponent,
     ProfileResultComponent
   ],
   imports: [

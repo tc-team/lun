@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BrowserModule, DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
@@ -15,14 +15,8 @@ import { AlertService } from '../utils/services/alert.service';
 
 export class ProfileComponent implements OnInit {
 
-  constructor(
-    private _router: Router,
-  ) {}
+  constructor() {}
 
   ngOnInit() {}
-
-  // setStep(link: string) {
-  //   this._router.navigateByUrl(link);
-  // }
 
 }
